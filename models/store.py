@@ -3,22 +3,18 @@ from db import db
 
 
 class Item(db.Model):
-    __tablename__ = 'items'
+    __tablename__ = 'stores'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80))
-    price = db.Column(db.Float(precision=2))
 
-    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    store = db.relationship('Store')
+    items = db.relationship('Item', lazy='dynamic')
 
-    def __init__(self, name, price, store_id):
+    def __init__(self, name):
         self.name = name
-        self.price = price
-        self.store_id = store_id
 
     def json(self):
-        return {'name': self.name, 'price': self.price}
+        return {'name': self.name, 'items': [list(map(lambda item: item.json(), self.items.all()))]}
 
     def save_to_db(self):
         db.session.add(self)

@@ -13,18 +13,12 @@ class UserResource(Resource):
 
     def post(self):
         data = UserResource.parser.parse_args()
-        user = (data['username'], data['password'])
-
         if User.find_by_username(data['username']):
             return {'message': 'user {} already exists'.format(data['username'])}, 400
 
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        insert_user_query = 'INSERT INTO users VALUES (NULL, ?, ?)'
-        cursor.execute(insert_user_query, user)
+        user = User(data['username'], data['password'])
+        user.save_to_db()
 
-        connection.commit()
-        connection.close()
 
         return {'message': 'User {} created successfully'.format(data['username'])}, 201
 
