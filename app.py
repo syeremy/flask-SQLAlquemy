@@ -5,6 +5,7 @@ from flask_jwt import JWT, jwt_required
 from resources.user_resource import UserResource
 from security import authenticate, identity
 from resources.item_resource import ItemResource, ItemListResource
+from resources.store_resource import StoreResource, StoreListResource
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -25,6 +26,8 @@ jwt = JWT(app, authenticate, identity)  # endpoint : /auth
 api.add_resource(ItemResource, '/items/<int:_id>')
 api.add_resource(ItemListResource, '/items')
 api.add_resource(UserResource, '/users')
+api.add_resource(StoreResource, '/stores/<int:_id>')
+api.add_resource(StoreListResource, '/stores')
 
 if __name__ == "__main__":
     from db import db

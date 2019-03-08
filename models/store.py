@@ -2,7 +2,7 @@ import sqlite3
 from db import db
 
 
-class Item(db.Model):
+class Store(db.Model):
     __tablename__ = 'stores'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
