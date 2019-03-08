@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required
@@ -8,7 +9,7 @@ from resources.item_resource import ItemResource, ItemListResource
 from resources.store_resource import StoreResource, StoreListResource
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 # disables the Flask SQLAlchemy tracker, no the SQLAlchemy tracker itself.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'syeremy_secret_key'
